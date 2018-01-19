@@ -24,15 +24,15 @@ public class CurlResponse {
   public RawVector getHeaders() {
     if(headers == null) {
 
-      StringBuilder buffer = new StringBuilder();
+      StringBuilder buffer = new StringBuilder(connection.getHeaderField(0));
+
       for (Map.Entry<String, List<String>> entry : connection.getHeaderFields().entrySet()) {
-        for (String value : entry.getValue()) {
-          buffer.append(entry.getKey()).append(": ").append(value).append("\n");
+        if(entry.getKey() != null) {
+          for (String value : entry.getValue()) {
+            buffer.append(entry.getKey()).append(": ").append(value).append("\n");
+          }
         }
       }
-
-      // The R code expects this buffer to be null-terminated
-      buffer.append('\0');
 
       headers = new RawVector(buffer.toString().getBytes(Charsets.UTF_8));
     }
