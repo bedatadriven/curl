@@ -5,7 +5,7 @@
   <artifactId>curl</artifactId>
   <version>2.7.9000</version>
   <properties>
-    <renjin.version>0.9.0-SNAPSHOT</renjin.version>
+    <renjin.version>1.0.0-SNAPSHOT</renjin.version>
   </properties>
   <repositories>
     <repository>
@@ -31,8 +31,17 @@
       <url>http://nexus.bedatadriven.com/content/repositories/renjin-packages</url>
     </repository>
   </distributionManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.renjin</groupId>
+      <artifactId>renjin-core</artifactId>
+      <version>${renjin.version}</version>
+    </dependency>
+  </dependencies>
   
   <build>
+    <sourceDirectory>${basedir}/renjin</sourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.renjin</groupId>
@@ -51,6 +60,14 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
       </plugin>
     </plugins>
   </build>
