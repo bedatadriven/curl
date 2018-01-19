@@ -1,10 +1,13 @@
 package org.renjin.cran.curl;
 
 import org.renjin.eval.EvalException;
-import org.renjin.primitives.text.regex.ExtendedRE;
+import org.renjin.repackaged.guava.base.Charsets;
 import org.renjin.sexp.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * Drop in replacement for C code.
@@ -90,6 +93,26 @@ public class curl {
     CurlHandle handle = getHandle(ptr);
 
     return handle.getCookies();
+  }
+
+  public static SEXP R_curl_escape(SEXP urlSexp, SEXP unescape_) throws UnsupportedEncodingException {
+    if (!(urlSexp instanceof StringVector)) {
+      throw new EvalException("`url` must be a character vector.");
+    }
+
+    StringVector urlVector = (StringVector) urlSexp;
+    boolean unescape = unescape_.asLogical().toBooleanStrict();
+    int n = urlSexp.length();
+
+    StringArrayVector.Builder output = new StringVector.Builder(0, n);
+    for (String url : urlVector) {
+      if (unescape) {
+        output.add(URLDecoder.decode(url, Charsets.UTF_8.name()));
+      } else {
+        output.add(URLEncoder.encode(url, Charsets.UTF_8.name()));
+      }
+    }
+    return output.build();
   }
 
   private static CurlHandle getHandle(SEXP ptr) {
