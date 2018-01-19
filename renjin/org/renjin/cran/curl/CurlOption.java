@@ -4,7 +4,7 @@ package org.renjin.cran.curl;
  * Curl options tables
  */
 public enum CurlOption {
-  ACCEPT_ENCODING(10102),
+  ACCEPT_ENCODING(10102, CurlOptionType.STRING),
   ACCEPTTIMEOUT_MS(212),
   ADDRESS_SCOPE(171),
   APPEND(50),
@@ -77,7 +77,7 @@ public enum CurlOption {
   HTTPAUTH(107),
   HTTPGET(80, CurlOptionType.BOOLEAN),
   HTTPHEADER(10023),
-  HTTPPOST(10024),
+  HTTPPOST(10024, CurlOptionType.BOOLEAN),
   HTTPPROXYTUNNEL(61),
   IGNORE_CONTENT_LENGTH(136),
   INFILESIZE(14),
@@ -109,10 +109,10 @@ public enum CurlOption {
   NETRC_FILE(10118),
   NEW_DIRECTORY_PERMS(160),
   NEW_FILE_PERMS(159),
-  NOBODY(44),
-  NOPROGRESS(43),
-  NOPROXY(10177),
-  NOSIGNAL(99),
+  NOBODY(44, CurlOptionType.BOOLEAN),
+  NOPROGRESS(43, CurlOptionType.BOOLEAN),
+  NOPROXY(10177, CurlOptionType.BOOLEAN),
+  NOSIGNAL(99, CurlOptionType.BOOLEAN),
   OBSOLETE40(10040),
   OBSOLETE72(72),
   OPENSOCKETDATA(10164),
@@ -122,9 +122,9 @@ public enum CurlOption {
   PINNEDPUBLICKEY(10230),
   PIPEWAIT(237),
   PORT(3),
-  POST(47),
+  POST(47, CurlOptionType.BOOLEAN),
   POSTFIELDS(10015),
-  POSTFIELDSIZE(60),
+  POSTFIELDSIZE(60, CurlOptionType.INTEGER),
   POSTFIELDSIZE_LARGE(30120),
   POSTQUOTE(10039),
   POSTREDIR(161),
@@ -143,7 +143,7 @@ public enum CurlOption {
   PROXYTYPE(101),
   PROXYUSERNAME(10175),
   PROXYUSERPWD(10006),
-  PUT(54),
+  PUT(54, CurlOptionType.BOOLEAN),
   QUOTE(10028),
   RANDOM_FILE(10076),
   RANGE(10007),
@@ -216,12 +216,12 @@ public enum CurlOption {
   UNIX_SOCKET_PATH(10231),
   UNRESTRICTED_AUTH(105),
   UPLOAD(46),
-  URL(10002),
-  USE_SSL(119),
-  USERAGENT(10018),
-  USERNAME(10173),
-  USERPWD(10005),
-  VERBOSE(41),
+  URL(10002, CurlOptionType.STRING),
+  USE_SSL(119, CurlOptionType.BOOLEAN),
+  USERAGENT(10018, CurlOptionType.STRING),
+  USERNAME(10173, CurlOptionType.STRING),
+  USERPWD(10005, CurlOptionType.STRING),
+  VERBOSE(41, CurlOptionType.BOOLEAN),
   WILDCARDMATCH(197),
   WRITEDATA(10001),
   WRITEFUNCTION(20011),
@@ -233,7 +233,7 @@ public enum CurlOption {
 
   CurlOption(int code) {
     this.code = code;
-    this.type = CurlOptionType.STRING;
+    this.type = CurlOptionType.UNKNOWN;
   }
 
   CurlOption(int code, CurlOptionType type) {
