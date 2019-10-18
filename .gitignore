@@ -12,3 +12,5 @@ tools/option_table.txt
 inst/doc
 R/sysdata.rda
 windows
+.idea
+*.iml

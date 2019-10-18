@@ -55,7 +55,8 @@ public class curl {
     if (!(vec instanceof StringVector)) {
       throw new EvalException("header vector must be a string.");
     }
-    //set_headers(get_ref(ptr), vec_to_slist(vec));
+    CurlHandle handle = getHandle(ptr);
+    handle.setHeaders((StringVector)vec);
 
     return LogicalVector.TRUE;
   }

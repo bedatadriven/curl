@@ -1,6 +1,7 @@
 package org.renjin.cran.curl;
 
 import org.renjin.eval.EvalException;
+import org.renjin.repackaged.guava.collect.Iterables;
 import org.renjin.repackaged.guava.io.ByteStreams;
 import org.renjin.sexp.RawVector;
 import org.renjin.sexp.SEXP;
@@ -10,7 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +23,7 @@ public class CurlHandle {
 
   private Map<CurlOption, Object> options = new HashMap<>();
   private CurlResponse lastResponse;
+  private List<String> headers = new ArrayList<>();
 
   public void setOption(CurlOption option, SEXP value) {
 
@@ -29,6 +33,10 @@ public class CurlHandle {
       throw new EvalException("Failed to set value for option " + option.name() + ": " + e.getMessage() +
           " found: " + value.getTypeName());
     }
+  }
+
+  public void setHeaders(Iterable<String> headers) {
+    Iterables.addAll(this.headers, headers);
   }
 
   public boolean getBooleanOption(CurlOption option, boolean defaultValue) {
@@ -69,7 +77,6 @@ public class CurlHandle {
     return getStringOption(CurlOption.URL);
   }
 
-
   public SEXP fetchRaw() throws IOException {
     URL url = new URL(getStringOption(CurlOption.URL));
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -102,4 +109,5 @@ public class CurlHandle {
   public SEXP getCookies() {
     return StringArrayVector.EMPTY;
   }
+
 }
